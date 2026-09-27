@@ -161,7 +161,9 @@
             water,
             comments
           })
-        });
+              });
+        
+      
 
         status.textContent = `Спасибо, ${name}! Ваш ответ сохранён.`;
         form.reset();
