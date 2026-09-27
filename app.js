@@ -109,6 +109,8 @@
       const attendance = form.elements.attendance?.value || '';
       const food = [...form.querySelectorAll('input[name="food"]:checked')].map(i => i.value);
       const drinks = [...form.querySelectorAll('input[name="soft"]:checked')].map(i => i.value);
+      const water = [...form.querySelectorAll('input[name="water"]:checked')]
+  .map(i => i.value);
       const comments = form.elements.comment?.value.trim() || '';
 
       if (!name || !attendance) {
@@ -125,8 +127,14 @@
           method: 'POST',
           mode: 'no-cors',
           headers: {'Content-Type':'text/plain;charset=utf-8'},
-          body: JSON.stringify({name, attendance, food, drinks, comments})
-        });
+         body: JSON.stringify({
+  name,
+  attendance,
+  food,
+  drinks,
+  water,
+  comments
+})
 
         status.textContent = `Спасибо, ${name}! Ваш ответ сохранён.`;
         form.reset();
