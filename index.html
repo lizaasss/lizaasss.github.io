@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b9787e">
+  <title>Жанна — 60 лет | Приглашение</title>
+  <meta name="description" content="Приглашение на юбилей Жанны — 60 лет. 16 октября 2026 года, ресторан «Онегин».">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="petals" aria-hidden="true"></div>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Включить музыку">
+    <span class="music-icon" aria-hidden="true">🔊</span>
+    <span class="music-label">Включить музыку</span>
+  </button>
+
+  <audio id="bgMusic" autoplay loop preload="auto" playsinline>
+    <source src="Notki_-_Muzyka_dlya_fona_na_den_rozhdeniya_78792475.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="hero" id="top">
+    <div class="hero-overlay"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-inner reveal">
+      <p class="hero-eyebrow">ПРИГЛАШЕНИЕ НА ЮБИЛЕЙ</p>
+      <div class="hero-line"><span></span><b>♡</b><span></span></div>
+
+      <p class="hero-greeting">Дорогие гости!<br><small>Буду очень рада видеть вас<br>на моём юбилее!</small></p>
+
+      <h1>Жанна</h1>
+      <div class="hero-age">60</div>
+      <div class="hero-age-label">лет</div>
+
+      <div class="hero-line hero-line-bottom"><span></span><b>♡</b><span></span></div>
+      <p class="hero-wish">Ваше присутствие —<br>лучший подарок!</p>
+
+      <a class="hero-button" href="#details">Узнать подробности ↓</a>
+    </div>
+
+    <div class="scroll-hint">Листайте вниз <span>↓</span></div>
+  </header>
+
+  <main>
+    <section class="section intro" id="details">
+      <div class="ornament">✦</div>
+      <p class="eyebrow">Буду рада разделить этот вечер с вами</p>
+      <h2>Здравствуйте!</h2>
+      <p class="lead">
+        Приглашаю вас на празднование моего юбилея.
+        Буду очень рада вашему присутствию и возможности провести этот особенный вечер вместе.
+      </p>
+
+      <div class="details-grid">
+        <article class="detail-card reveal">
+          <span class="detail-icon">◷</span>
+          <p class="label">Когда</p>
+          <h3>16 октября 2026</h3>
+          <p>Начало в 18:00 по Москве</p>
+        </article>
+
+        <article class="detail-card reveal">
+          <span class="detail-icon">⌂</span>
+          <p class="label">Где</p>
+          <h3>Ресторан «Онегин»</h3>
+          <p>Михайловское шоссе, 28А</p>
+        </article>
+
+        <article class="detail-card reveal">
+          <span class="detail-icon">◇</span>
+          <p class="label">Дресс-код</p>
+          <h3>На ваш вкус</h3>
+          <p>Буду рада видеть вас в красивом и комфортном образе</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section venue" id="venue">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Место празднования</p>
+        <h2>Ресторан «Онегин»</h2>
+        <p>Именно здесь мы проведём этот праздничный вечер.</p>
+      </div>
+
+      <div class="venue-gallery">
+        <figure class="venue-photo-card reveal">
+          <img src="assets/restaurant-exterior.jpeg" alt="Ресторан «Онегин», вид снаружи" loading="lazy">
+          <figcaption>Ресторан «Онегин»</figcaption>
+        </figure>
+
+        <figure class="venue-photo-card reveal">
+          <img src="assets/celebration-hall.png" alt="Зал ресторана, где состоится празднование" loading="lazy">
+          <figcaption>Зал, где состоится праздник</figcaption>
+        </figure>
+      </div>
+
+      <div class="venue-info reveal">
+        <div>
+          <p class="venue-name">Ресторан «Онегин»</p>
+          <p class="venue-address">Михайловское шоссе, 28А</p>
+        </div>
+        <a class="outline-btn" href="https://yandex.ru/maps/org/onegin/104587263281?si=9zqxh32pqv4td9erpf7z5a84pr" target="_blank" rel="noopener">
+          Открыть маршрут&nbsp; →
+        </a>
+      </div>
+    </section>
+
+    <section class="section rsvp" id="rsvp">
+      <div class="rsvp-heading reveal">
+        <div class="ornament">♡</div>
+        <p class="eyebrow">Ваш ответ</p>
+        <h2>Пожалуйста,<br>подтвердите присутствие</h2>
+        <p>Это поможет подготовить праздник с учётом ваших пожеланий.</p>
+      </div>
+
+      <form id="rsvpForm" class="rsvp-form reveal">
+        <p class="hidden-field">
+          <label>Не заполняйте это поле:
+            <input name="bot-field" tabindex="-1" autocomplete="off">
+          </label>
+        </p>
+
+        <label class="field">
+          <span>Ваше имя</span>
+          <input type="text" name="name" required placeholder="Имя и фамилия">
+        </label>
+
+        <fieldset>
+          <legend>Будете на празднике?</legend>
+          <div class="choice-stack">
+            <label class="choice">
+              <input type="radio" name="attendance" value="Да, буду" required>
+              <span>Да, буду</span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="attendance" value="К сожалению, не смогу">
+              <span>К сожалению, не смогу</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Пожелания по еде</legend>
+          <p class="hint">Можно выбрать несколько вариантов</p>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="food" value="Мясо"><span>Мясо</span></label>
+            <label class="choice"><input type="checkbox" name="food" value="Рыба"><span>Рыба</span></label>
+            <label class="choice"><input type="checkbox" name="food" value="Птица"><span>Птица</span></label>
+            <label class="choice"><input type="checkbox" name="food" value="Вегетарианское"><span>Вегетарианское</span></label>
+            <label class="choice"><input type="checkbox" name="food" value="Без особых пожеланий"><span>Без особых пожеланий</span></label>
+          </div>
+        </fieldset>
+
+        <!--
+          ====== СПИСОК НАПИТКОВ ======
+          Этот блок можно легко менять самостоятельно.
+          Для изменения названия измените текст в value="..." и внутри <span>...</span>.
+          Чтобы добавить новый вариант, скопируйте одну строку <label class="choice">...</label>.
+        -->
+        <fieldset>
+          <legend>Безалкогольные напитки</legend>
+          <p class="hint">Можно выбрать несколько вариантов</p>
+          <div class="choice-grid" id="drinkOptions">
+            <label class="choice"><input type="checkbox" name="soft" value="Чай"><span>Чай</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Лимонад — мохито"><span>Лимонад — мохито</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Лимонад — груша"><span>Лимонад — груша</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Сок — мультифрукт"><span>Сок — мультифрукт</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Сок — яблоко"><span>Сок — яблоко</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Сок — персик"><span>Сок — персик</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Сок — вишня"><span>Сок — вишня</span></label>
+            <label class="choice"><input type="checkbox" name="soft" value="Нет особых пожеланий"><span>Нет особых пожеланий</span></label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span>Дополнительные пожелания</span>
+          <textarea name="comment" rows="4" placeholder="Если есть особенности питания или другие пожелания, напишите здесь"></textarea>
+        </label>
+
+        <button class="primary-btn submit-btn" type="submit">Отправить анкету</button>
+        <p class="form-status" id="formStatus" role="status"></p>
+      </form>
+    </section>
+
+    <section class="section final-note">
+      <div class="ornament">✦</div>
+      <p>До встречи за праздничным столом</p>
+      <h2>С теплом,<br>Жанна</h2>
+    </section>
+  </main>
+
+  <footer>
+    <span>Жанна · 60 лет</span>
+    <a href="#top">Наверх ↑</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
