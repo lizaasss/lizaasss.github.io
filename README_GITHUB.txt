@@ -1,12 +1,26 @@
-Сайт-приглашение Жанны — 60 лет
+САЙТ-ПРИГЛАШЕНИЕ ЖАННЫ — 60 ЛЕТ
 
-Эта папка подготовлена для GitHub Pages.
+Файлы для GitHub Pages:
+- index.html
+- styles.css
+- app.js
+- .nojekyll
+- assets/restaurant-exterior.jpeg
+- assets/celebration-hall.png
 
-1. Создайте репозиторий на GitHub. Для самого короткого адреса назовите его ВАШ_ЛОГИН.github.io.
-2. Загрузите в корень репозитория все файлы и папки из этой папки.
-3. GitHub → Settings → Pages → Build and deployment → Source: Deploy from a branch.
-4. Branch: main, folder: / (root), затем Save.
-5. Сайт будет доступен по адресу https://ВАШ_ЛОГИН.github.io/
+ВАЖНО ПРО МУЗЫКУ
+В корень репозитория положите ваш существующий файл:
+Notki_-_Muzyka_dlya_fona_na_den_rozhdeniya_78792475.mp3
 
-Важно: GitHub Pages — статический хостинг. Ответы RSVP сами по себе на GitHub не сохраняются.
-Для сохранения ответов в Google Таблицу позже можно подключить Google Apps Script и указать его URL в app.js.
+На сайте одна кнопка переключения музыки:
+🔊 Включить музыку / 🔇 Выключить музыку
+
+Браузеры иногда блокируют автоматический запуск звука. Если это произойдёт, музыка запускается после первого взаимодействия гостя со страницей.
+
+ФОРМА
+Сейчас форма показывает подтверждение прямо на странице, но ответы НЕ сохраняются в таблицу.
+Если нужна статистика ответов гостей, позже можно подключить Google Apps Script + Google Таблицу.
+
+GITHUB PAGES
+Settings → Pages → Deploy from a branch → main → / (root).
+Сайт: https://lizaasss.github.io/

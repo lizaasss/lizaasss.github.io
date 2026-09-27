@@ -1,74 +1,109 @@
-const form = document.getElementById("rsvpForm");
-const status = document.getElementById("formStatus");
+(() => {
+  const audio = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  const musicLabel = musicToggle?.querySelector('.music-label');
+  const musicIcon = musicToggle?.querySelector('.music-icon');
 
-// Если позже подключите Google Apps Script, вставьте сюда URL веб-приложения.
-const GOOGLE_SCRIPT_URL = "";
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(form).entries());
-  data.food = [...form.querySelectorAll('input[name="food"]:checked')].map(x => x.value);
-  data.alcohol = [...form.querySelectorAll('input[name="alcohol"]:checked')].map(x => x.value);
-  data.soft = [...form.querySelectorAll('input[name="soft"]:checked')].map(x => x.value);
-
-  status.textContent = "Отправляем ваш ответ…";
-
-  if (!GOOGLE_SCRIPT_URL) {
-    status.textContent = "Форма готова. После подключения таблицы ответы будут сохраняться автоматически.";
-    return;
+  function setMusicUI(isPlaying) {
+    if (!musicToggle) return;
+    musicLabel.textContent = isPlaying ? 'Выключить музыку' : 'Включить музыку';
+    musicIcon.textContent = isPlaying ? '🔇' : '🔊';
+    musicToggle.setAttribute('aria-label', isPlaying ? 'Выключить музыку' : 'Включить музыку');
   }
 
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {"Content-Type": "text/plain;charset=utf-8"},
-      body: JSON.stringify(data)
+  async function tryPlayMusic() {
+    if (!audio) return false;
+    try {
+      await audio.play();
+      setMusicUI(true);
+      return true;
+    } catch (_) {
+      setMusicUI(false);
+      return false;
+    }
+  }
+
+  if (audio && musicToggle) {
+    setMusicUI(false);
+    tryPlayMusic();
+
+    // Browsers may block unmuted autoplay. The first guest interaction can start it.
+    const startAfterInteraction = () => {
+      if (audio.paused) tryPlayMusic();
+      document.removeEventListener('pointerdown', startAfterInteraction);
+      document.removeEventListener('keydown', startAfterInteraction);
+    };
+    document.addEventListener('pointerdown', startAfterInteraction, { passive: true });
+    document.addEventListener('keydown', startAfterInteraction, { passive: true });
+
+    musicToggle.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      if (audio.paused) {
+        await tryPlayMusic();
+      } else {
+        audio.pause();
+        setMusicUI(false);
+      }
     });
-    status.textContent = "Спасибо! Ваш ответ принят. Буду ждать встречи!";
-    form.reset();
-  } catch (err) {
-    status.textContent = "Не удалось отправить ответ. Попробуйте ещё раз.";
+
+    audio.addEventListener('play', () => setMusicUI(true));
+    audio.addEventListener('pause', () => setMusicUI(false));
   }
-});
 
-const petals = document.querySelector(".petals");
-for (let i = 0; i < 18; i++) {
-  const p = document.createElement("span");
-  p.className = "petal";
-  p.style.left = `${Math.random()*100}%`;
-  p.style.animationDuration = `${9 + Math.random()*10}s`;
-  p.style.animationDelay = `${-Math.random()*14}s`;
-  p.style.setProperty("--drift", `${-80 + Math.random()*160}px`);
-  p.style.transform = `rotate(${Math.random()*180}deg)`;
-  petals.appendChild(p);
-}
+  // Soft, slow rose petals with random trajectories.
+  const petals = document.querySelector('.petals');
+  if (petals && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const count = window.innerWidth < 600 ? 13 : 24;
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('span');
+      petal.className = 'petal';
+      const size = 6 + Math.random() * 7;
+      const left = Math.random() * 100;
+      const duration = 18 + Math.random() * 18;
+      const delay = -Math.random() * duration;
+      const opacity = 0.18 + Math.random() * 0.28;
+      petal.style.left = `${left}%`;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size * 1.55}px`;
+      petal.style.opacity = opacity;
+      petal.style.animationDuration = `${duration}s`;
+      petal.style.animationDelay = `${delay}s`;
+      petal.style.setProperty('--drift1', `${-70 + Math.random() * 140}px`);
+      petal.style.setProperty('--drift2', `${-110 + Math.random() * 220}px`);
+      petal.style.setProperty('--drift3', `${-90 + Math.random() * 180}px`);
+      petal.style.setProperty('--drift4', `${-120 + Math.random() * 240}px`);
+      petals.appendChild(petal);
+    }
+  }
 
-let audioCtx = null, timer = null, playing = false;
-const btn = document.getElementById("musicBtn");
-const notes = [261.63,329.63,392.00,329.63,293.66,349.23,440.00,349.23];
-let step = 0;
-function playNote(freq, when, duration=.9) {
-  const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-  osc.type = "sine"; osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0.0001, when);
-  gain.gain.exponentialRampToValueAtTime(0.035, when+0.12);
-  gain.gain.exponentialRampToValueAtTime(0.0001, when+duration);
-  osc.connect(gain).connect(audioCtx.destination);
-  osc.start(when); osc.stop(when+duration+0.05);
-}
-function schedule() {
-  if (!playing) return;
-  const now = audioCtx.currentTime;
-  playNote(notes[step % notes.length], now, 1.7);
-  if (step % 4 === 0) playNote(notes[(step+4) % notes.length]/2, now, 2.4);
-  step++;
-  timer = setTimeout(schedule, 1450);
-}
-btn.addEventListener("click", async () => {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === "suspended") await audioCtx.resume();
-  playing = !playing;
-  btn.textContent = playing ? "Ⅱ Музыка" : "♪ Музыка";
-  if (playing) schedule(); else clearTimeout(timer);
-});
+  // Gentle reveal animations on scroll.
+  const revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealItems.forEach(el => observer.observe(el));
+  } else {
+    revealItems.forEach(el => el.classList.add('visible'));
+  }
+
+  // Local confirmation for the static GitHub Pages version.
+  // To collect responses, connect this form to a Google Apps Script endpoint later.
+  const form = document.getElementById('rsvpForm');
+  const status = document.getElementById('formStatus');
+  if (form && status) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = form.elements.name.value.trim();
+      status.textContent = name
+        ? `Спасибо, ${name}! Анкета заполнена.`
+        : 'Спасибо! Анкета заполнена.';
+      form.reset();
+    });
+  }
+})();
