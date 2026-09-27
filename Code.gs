@@ -40,17 +40,22 @@ function doPost(e) {
       ? data.drinks.join(', ')
       : (data.drinks || '');
 
+const water = Array.isArray(data.water)
+  ? data.water.join(', ')
+  : (data.water || '');
+
     const comments = data.comments || '';
 
     // Добавляем нового гостя
-    sheet.appendRow([
-      new Date(),
-      name,
-      attendance,
-      food,
-      drinks,
-      comments
-    ]);
+sheet.appendRow([
+  new Date(),
+  name,
+  attendance,
+  food,
+  drinks,
+  water,
+  comments
+]);
 
     return ContentService
       .createTextOutput(JSON.stringify({
