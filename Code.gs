@@ -1,50 +1,70 @@
-/*
-  Google Apps Script для сайта-приглашения Жанны, 60 лет.
+const SHEET_NAME = 'Ответы гостей';
 
-  Как подключить:
-  1) Создайте Google Таблицу, например "Жанна 60 — гости".
-  2) В таблице: Расширения → Apps Script.
-  3) Вставьте этот код вместо стандартного.
-  4) Нажмите Deploy → New deployment → Web app.
-  5) Execute as: Me. Who has access: Anyone.
-  6) Скопируйте Web app URL.
-  7) В index.html/app.js вставьте URL в GOOGLE_SCRIPT_URL.
-  8) После этого ответы гостей будут собираться в таблице.
-
-  В таблице автоматически появятся столбцы:
-  Дата, Имя, Присутствие, Еда, Алкоголь (предпочтение), Безалкогольные, Пожелания.
-
-  Для статистики в самой Google Таблице можно построить сводные таблицы/диаграммы.
-*/
-
-const SHEET_NAME = "Ответы";
+function doGet() {
+  return ContentService
+    .createTextOutput('Сервис формы приглашения работает.')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
 
 function doPost(e) {
-  const body = e && e.postData && e.postData.contents
-    ? JSON.parse(e.postData.contents)
-    : {};
+  try {
+    const data = JSON.parse(e.postData.contents);
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = spreadsheet.getSheetByName(SHEET_NAME);
+
+    // Если листа ещё нет — создаём его
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet(SHEET_NAME);
+
+      sheet.appendRow([
+        'Дата и время',
+        'Имя',
+        'Присутствие',
+        'Еда',
+        'Напитки',
+        'Дополнительные пожелания'
+      ]);
+
+      sheet.setFrozenRows(1);
+    }
+
+    // Получаем данные из формы
+    const name = data.name || '';
+    const attendance = data.attendance || '';
+    const food = Array.isArray(data.food)
+      ? data.food.join(', ')
+      : (data.food || '');
+
+    const drinks = Array.isArray(data.drinks)
+      ? data.drinks.join(', ')
+      : (data.drinks || '');
+
+    const comments = data.comments || '';
+
+    // Добавляем нового гостя
     sheet.appendRow([
-      "Дата", "Имя", "Присутствие", "Еда",
-      "Алкоголь (предпочтение)", "Безалкогольные", "Пожелания"
+      new Date(),
+      name,
+      attendance,
+      food,
+      drinks,
+      comments
     ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: true,
+        message: 'Ответ успешно сохранён'
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        error: error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
-
-  sheet.appendRow([
-    new Date(),
-    body.name || "",
-    body.attendance || "",
-    (body.food || []).join(", "),
-    (body.alcohol || []).join(", "),
-    (body.soft || []).join(", "),
-    body.comment || ""
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({ok:true}))
-    .setMimeType(ContentService.MimeType.JSON);
 }
